@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Session Detail</title>
+</head>
+<body>
+    <h1>Session Detail</h1>
+    <p>Movie: {{ session.movie.title }}</p>
+    <p>Hall: {{ session.hall.name }}</p>
+    <p>Date/Time: {{ session.date_time }}</p>
+    <h2>Seats</h2>
+    <ul>
+        {% for seat in seats %}
+            <li>{{ seat.row.number }} - {{ seat.number }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'reserve_tickets' session.id %}">Reserve Tickets</a>
+</body>
+</html>
