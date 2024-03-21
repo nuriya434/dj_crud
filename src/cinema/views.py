@@ -2,14 +2,21 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Movie, Session, Seat
 from django.http import JsonResponse
 from .forms import MovieForm
-
-def movie_manage(request):
-    movies = Movie.objects.all()
-    return render(request, 'movie_manage.html', {'movies': movies})
+from .filters import MovieFilter
+from django_filters.views import FilterView
 
 def movie_list(request):
     movies = Movie.objects.all()
     return render(request, 'movie_list.html', {'movies': movies})
+
+class MovieFilterView(FilterView):
+    filterset_class = MovieFilter
+    queryset = Movie.objects.all()
+    template_name = 'movie_list.html'
+
+def movie_manage(request):
+    movies = Movie.objects.all()
+    return render(request, 'movie_manage.html', {'movies': movies})
 
 
 def movie_detail(request, movie_id):

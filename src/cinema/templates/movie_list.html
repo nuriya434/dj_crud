@@ -10,5 +10,15 @@
             <li>{{ movie.title }}</li>
         {% endfor %}
     </ul>
+
+    {% extends 'base.html' %}
+    {% block content %}
+        <h1>List of Movies</h1>
+        <ul>
+            {% for movie in object_list %}
+                <li>{{ movie.title }}</li>
+            {% endfor %}
+        </ul>
+    {% endblock %}
 </body>
 </html>
