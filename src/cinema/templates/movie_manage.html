@@ -7,30 +7,21 @@
 </head>
 <body>
     <h1>Movie Management</h1>
-    
-    <!-- Ссылка на страницу создания нового фильма -->
     <h2>Add New Movie</h2>
     <a href="{% url 'create_movie' %}">Create New Movie</a>
-
-    <!-- Список существующих фильмов -->
     <h2>Movie List</h2>
     <ul>
         {% for movie in movies %}
             <li id="movie-{{ movie.id }}">
                 {{ movie.title }} - {{ movie.description }}
-                <!-- Ссылки на детали, обновление и удаление фильма -->
                 <a href="{% url 'movie_detail' movie.id %}">Details</a>
                 <a href="{% url 'update_movie' movie.id %}">Update</a>
                 <button onclick="deleteMovie({{ movie.id }})">Delete</button>
             </li>
         {% endfor %}
     </ul>
-
-    <!-- Ссылка на страницу со списком сеансов -->
     <h2>Session List</h2>
     <a href="{% url 'session_list' %}">View Session List</a>
-
-    <!-- JavaScript-код для обновления информации о фильме без перезагрузки страницы -->
     <script>
         function updateMovie(movieId) {
             const newTitle = prompt('Enter new title:');
@@ -52,7 +43,6 @@
                 })
                 .then(data => {
                     if (data.success) {
-                        // Обновить информацию о фильме на странице
                         const movieElement = document.getElementById(`movie-${movieId}`);
                         movieElement.innerHTML = `${newTitle} - ${newDescription}`;
                     } else {
@@ -81,7 +71,6 @@
             })
             .then(data => {
                 if (data.success) {
-                    // Удалить элемент фильма из списка
                     const movieElement = document.getElementById(`movie-${movieId}`);
                     movieElement.remove();
                 } else {

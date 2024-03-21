@@ -3,7 +3,7 @@ from .views import movie_manage, movie_detail, create_movie, delete_movie, updat
 
 urlpatterns = [
     path('', movie_manage, name='home'),
-    path('movies/', movie_manage, name='movie_manage'),  # Здесь используем movie_manage
+    path('movies/', movie_manage, name='movie_manage'),  
     path('movie/<int:movie_id>/', movie_detail, name='movie_detail'),
     path('movie/create/', create_movie, name='create_movie'),
     path('movie/<int:movie_id>/delete/', delete_movie, name='delete_movie'),

@@ -21,7 +21,7 @@ def create_movie(request):
         form = MovieForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('movie_list')  # Предполагая, что у вас есть представление movie_list
+            return redirect('movie_list') 
     else:
         form = MovieForm()
     return render(request, 'create_movie.html', {'form': form})
