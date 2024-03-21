@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Management</title>
+</head>
+<body>
+    <h1>Movie Management</h1>
+    
+    <!-- Ссылка на страницу создания нового фильма -->
+    <h2>Add New Movie</h2>
+    <a href="{% url 'create_movie' %}">Create New Movie</a>
+
+    <!-- Список существующих фильмов -->
+    <h2>Movie List</h2>
+    <ul>
+        {% for movie in movies %}
+            <li id="movie-{{ movie.id }}">
+                {{ movie.title }} - {{ movie.description }}
+                <!-- Ссылки на детали, обновление и удаление фильма -->
+                <a href="{% url 'movie_detail' movie.id %}">Details</a>
+                <a href="{% url 'update_movie' movie.id %}">Update</a>
+                <button onclick="deleteMovie({{ movie.id }})">Delete</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Ссылка на страницу со списком сеансов -->
+    <h2>Session List</h2>
+    <a href="{% url 'session_list' %}">View Session List</a>
+
+    <!-- JavaScript-код для обновления информации о фильме без перезагрузки страницы -->
+    <script>
+        function updateMovie(movieId) {
+            const newTitle = prompt('Enter new title:');
+            const newDescription = prompt('Enter new description:');
+            if (newTitle && newDescription) {
+                fetch(`/movie/${movieId}/update/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title: newTitle, description: newDescription })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Обновить информацию о фильме на странице
+                        const movieElement = document.getElementById(`movie-${movieId}`);
+                        movieElement.innerHTML = `${newTitle} - ${newDescription}`;
+                    } else {
+                        alert('Failed to update movie.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating the movie.');
+                });
+            }
+        }
+
+        function deleteMovie(movieId) {
+            fetch(`/movie/${movieId}/delete/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Удалить элемент фильма из списка
+                    const movieElement = document.getElementById(`movie-${movieId}`);
+                    movieElement.remove();
+                } else {
+                    alert('Failed to delete movie.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the movie.');
+            });
+        }
+    </script>
+</body>
+</html>
