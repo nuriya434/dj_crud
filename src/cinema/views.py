@@ -4,6 +4,12 @@ from django.http import JsonResponse
 from .forms import MovieForm
 from .filters import MovieFilter
 from django_filters.views import FilterView
+from rest_framework import generics
+from .serializers import SessionSerializer
+
+class SessionList(generics.ListAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
 
 def movie_list(request):
     movies = Movie.objects.all()
