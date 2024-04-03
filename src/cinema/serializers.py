@@ -1,5 +1,3 @@
-# serializers.py
-
 from rest_framework import serializers
 from .models import Seat, Session
 
@@ -7,10 +5,6 @@ class SeatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seat
         fields = ['number']
-
-
-
-# serializers.py
 
 class SessionSerializer(serializers.ModelSerializer):
     seats_available = SeatSerializer(many=True, read_only=True)

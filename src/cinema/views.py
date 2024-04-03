@@ -8,7 +8,7 @@ from rest_framework import generics
 from .serializers import SessionSerializer
 
 class SessionList(generics.ListAPIView):
-    queryset = Session.objects.all()
+    queryset = Session.objects.prefetch_related('seats_available').all()
     serializer_class = SessionSerializer
 
 def movie_list(request):
