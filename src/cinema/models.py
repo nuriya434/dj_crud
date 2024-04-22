@@ -1,9 +1,19 @@
-# В файле models.py вашего приложения cinema
-from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-class CustomUser(AbstractUser):
-    pass
+class CustomUser(AbstractBaseUser, UserManager):
+    username = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
+    objects = UserManager()
+
+    def __str__(self):
+        return self.username
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)

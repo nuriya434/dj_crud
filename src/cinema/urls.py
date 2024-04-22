@@ -10,9 +10,11 @@ from .views import (
     session_detail,
     movie_list,
     save_user_data,  
-    register,  # Импортируем представления для регистрации и входа
+    register, 
     user_login,
     user_logout,
+    UserListCreateAPIView, 
+    UserDetailAPIView
 )
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -37,5 +39,7 @@ urlpatterns = [
     path('login/', user_login, name='login'),
     path('logout/', user_logout, name='logout'),
     path('save-user-data/', save_user_data, name='save_user_data'),
-
+    
+    path('users/', UserListCreateAPIView.as_view(), name='user-list'),
+    path('users/<int:pk>/', UserDetailAPIView.as_view(), name='user-detail'),
 ]

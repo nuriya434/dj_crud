@@ -118,8 +118,9 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-# settings.py
+
 AUTH_USER_MODEL = 'cinema.CustomUser'
+
 
 
 
