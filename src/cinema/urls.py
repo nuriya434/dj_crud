@@ -8,14 +8,17 @@ from .views import (
     update_movie,
     session_list,
     session_detail,
+    movie_list,
     save_user_data,  
+    register,  # Импортируем представления для регистрации и входа
+    user_login,
+    user_logout,
 )
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView,
 )
-
 urlpatterns = [
     path('', movie_manage, name='home'),
     path('movies/', movie_manage, name='movie_manage'),
@@ -30,4 +33,9 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('save-user-data/', save_user_data, name='save_user_data'), 
+    path('register/', register, name='register'),
+    path('login/', user_login, name='login'),
+    path('logout/', user_logout, name='logout'),
+    path('save-user-data/', save_user_data, name='save_user_data'),
+
 ]
