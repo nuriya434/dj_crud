@@ -1,4 +1,9 @@
+# В файле models.py вашего приложения cinema
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+class CustomUser(AbstractUser):
+    pass
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
