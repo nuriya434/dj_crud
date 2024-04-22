@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Management</title>
-    <!-- Подключение файла login.js -->
     <script src="/src/cinema/login.js" defer></script>
 </head>
 <body>
@@ -27,7 +26,6 @@
                 <a href="{% url 'movie_detail' movie.id %}">Details</a>
                 <a href="{% url 'update_movie' movie.id %}">Update</a>
                 <button onclick="deleteMovie({{ movie.id }})">Delete</button>
-                <!-- Добавление ссылки для отображения карты -->
                 <a href="#" onclick="showMap('{{ movie.title }}', '{{ movie.address }}')">Show Map</a>
             </li>
         {% endfor %}

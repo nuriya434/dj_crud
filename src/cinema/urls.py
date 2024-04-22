@@ -8,8 +8,7 @@ from .views import (
     update_movie,
     session_list,
     session_detail,
-    movie_list,
-    save_user_data,  # Импортируем представление для сохранения данных пользователя
+    save_user_data,  
 )
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -30,5 +29,5 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    path('save-user-data/', save_user_data, name='save_user_data'),  # URL-адрес для сохранения данных пользователя
+    path('save-user-data/', save_user_data, name='save_user_data'), 
 ]

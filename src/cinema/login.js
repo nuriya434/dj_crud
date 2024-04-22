@@ -1,5 +1,3 @@
-// login.js
-
 document.getElementById('login-form').addEventListener('submit', async function(event) {
     event.preventDefault();
 
@@ -22,7 +20,6 @@ document.getElementById('login-form').addEventListener('submit', async function(
             throw new Error('Invalid username or password');
         }
 
-        // Вызываем функцию для сохранения данных пользователя в базе данных
         const saveSuccess = await saveUserData(username, password);
         if (saveSuccess) {
             alert('User data saved in the database!');

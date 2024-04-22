@@ -15,25 +15,21 @@ def save_user_data(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        # Создаем новую запись в базе данных
         Cinema.objects.create(name=username, address=password)
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
 def cinema_list(request):
-    # Получаем данные о кинотеатрах из стороннего API
     api_url = 'https://example.com/api/cinemas/'
     response = requests.get(api_url)
     cinemas_data = response.json()
 
-    # Создаем или обновляем записи в базе данных на основе полученных данных
     for cinema_data in cinemas_data:
         cinema, created = Cinema.objects.get_or_create(
             name=cinema_data['name'],
             defaults={'location': cinema_data['location']}
         )
 
-    # Получаем список кинотеатров из базы данных
     cinemas = Cinema.objects.all()
 
     return render(request, 'cinema_list.html', {'cinemas': cinemas})
@@ -55,12 +51,10 @@ class MovieFilterView(FilterView):
 def movie_manage(request):
     movies = Movie.objects.all()
 
-    # Обработка поискового запроса
     search_query = request.GET.get('search')
     if search_query:
         movies = movies.filter(Q(title__icontains=search_query))
 
-    # Обработка сортировки
     sort_by = request.GET.get('sort')
     if sort_by == 'title':
         movies = movies.order_by('title')
