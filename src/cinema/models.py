@@ -31,3 +31,9 @@ class Ticket(models.Model):
     seat = models.ForeignKey(Seat, on_delete=models.CASCADE)
     ticket_type = models.ForeignKey(TicketType, on_delete=models.CASCADE)
     purchase_time = models.DateTimeField(auto_now_add=True)
+
+class Cinema(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=255)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)

@@ -4,84 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Management</title>
+    <!-- Подключение файла login.js -->
+    <script src="/src/cinema/login.js" defer></script>
 </head>
 <body>
     <h1>Movie Management</h1>
+    
     <h2>Add New Movie</h2>
     <a href="{% url 'create_movie' %}">Create New Movie</a>
+
+    <h2>Search Movie</h2>
+    <form method="get" action="{% url 'movie_manage' %}">
+        <input type="text" name="search" placeholder="Search by title">
+        <button type="submit">Search</button>
+    </form>
+
     <h2>Movie List</h2>
     <ul>
         {% for movie in movies %}
-            <li id="movie-{{ movie.id }}">
+            <li>
                 {{ movie.title }} - {{ movie.description }}
                 <a href="{% url 'movie_detail' movie.id %}">Details</a>
                 <a href="{% url 'update_movie' movie.id %}">Update</a>
                 <button onclick="deleteMovie({{ movie.id }})">Delete</button>
+                <!-- Добавление ссылки для отображения карты -->
+                <a href="#" onclick="showMap('{{ movie.title }}', '{{ movie.address }}')">Show Map</a>
             </li>
         {% endfor %}
     </ul>
+
     <h2>Session List</h2>
     <a href="{% url 'session_list' %}">View Session List</a>
-    <script>
-        function updateMovie(movieId) {
-            const newTitle = prompt('Enter new title:');
-            const newDescription = prompt('Enter new description:');
-            if (newTitle && newDescription) {
-                fetch(`/movie/${movieId}/update/`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ title: newTitle, description: newDescription })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        const movieElement = document.getElementById(`movie-${movieId}`);
-                        movieElement.innerHTML = `${newTitle} - ${newDescription}`;
-                    } else {
-                        alert('Failed to update movie.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while updating the movie.');
-                });
-            }
-        }
-
-        function deleteMovie(movieId) {
-            fetch(`/movie/${movieId}/delete/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    const movieElement = document.getElementById(`movie-${movieId}`);
-                    movieElement.remove();
-                } else {
-                    alert('Failed to delete movie.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while deleting the movie.');
-            });
-        }
-    </script>
+    
+    <form id="login-form">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    
+    <div id="login-error" style="display: none; color: red;">Incorrect username or password</div>
 </body>
 </html>

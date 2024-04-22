@@ -1,3 +1,5 @@
+<!-- movie_list.html -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,20 +7,18 @@
 </head>
 <body>
     <h1>Movies</h1>
+
+    <form method="get" action="{% url 'movie_list' %}">
+        <input type="text" name="search" placeholder="Search by title">
+        <button type="submit">Search</button>
+    </form>
+
+    <a href="?sort=title">Sort by Title</a>
+
     <ul>
         {% for movie in movies %}
             <li>{{ movie.title }}</li>
         {% endfor %}
     </ul>
-
-    {% extends 'base.html' %}
-    {% block content %}
-        <h1>List of Movies</h1>
-        <ul>
-            {% for movie in object_list %}
-                <li>{{ movie.title }}</li>
-            {% endfor %}
-        </ul>
-    {% endblock %}
 </body>
 </html>

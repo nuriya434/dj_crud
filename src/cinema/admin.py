@@ -1,6 +1,5 @@
 from django.contrib import admin
-
-from .models import Movie, Hall, Row, Seat, Ticket, TicketType, Session
+from .models import Movie, Hall, Row, Seat, Ticket, TicketType, Session, Cinema
 
 admin.site.register(Movie)
 admin.site.register(Hall)
@@ -9,3 +8,8 @@ admin.site.register(Seat)
 admin.site.register(TicketType)
 admin.site.register(Session)
 admin.site.register(Ticket)
+
+@admin.register(Cinema)
+class CinemaAdmin(admin.ModelAdmin):
+    list_display = ('name', 'address')  # Отображаемые поля в админке
+    search_fields = ('name', 'address')  # Поля для поиска
